@@ -1,0 +1,966 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Products | Bloom & Blossom</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f5f6;
+            color: #292125;
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            min-height: 100vh;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+
+            min-height: 78px;
+
+            padding: 0 6%;
+
+            background: #292125;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .logo {
+
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .top-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .top-links a {
+
+            padding: 9px 14px;
+
+            border-radius: 20px;
+
+            color: #ddd;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+        }
+
+        .top-links a:hover {
+
+            background: #d85c75;
+
+            color: white;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding: 45px 25px 80px;
+        }
+
+        .page-heading {
+
+            margin-bottom: 30px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .heading-text p {
+
+            margin: 0 0 7px;
+
+            color: #d85c75;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+        }
+
+        .heading-text h1 {
+
+            margin: 0 0 7px;
+
+            font-size: 34px;
+        }
+
+        .heading-text span {
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        .add-button {
+
+            padding: 13px 20px;
+
+            border-radius: 25px;
+
+            background: #d85c75;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+
+            transition: 0.3s;
+        }
+
+        .add-button:hover {
+
+            background: #b94760;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           PRODUCT CARD
+        ========================= */
+
+        .products-card {
+
+            background: white;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.04);
+
+            overflow: hidden;
+        }
+
+        .card-top {
+
+            padding: 20px 25px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .card-top h2 {
+
+            margin: 0;
+
+            font-size: 18px;
+        }
+
+        .product-count {
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+        }
+
+        th {
+
+            padding: 14px 18px;
+
+            background: #fff8f9;
+
+            color: #888;
+
+            font-size: 10px;
+
+            text-align: left;
+
+            font-weight: bold;
+
+            letter-spacing: .5px;
+        }
+
+        td {
+
+            padding: 17px 18px;
+
+            border-bottom: 1px solid #f0eeee;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+
+            border-bottom: none;
+        }
+
+        .product-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .product-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            flex-shrink: 0;
+
+            border-radius: 12px;
+
+            background: #fff0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 26px;
+        }
+
+        .product-name {
+
+            font-weight: bold;
+
+            margin-bottom: 4px;
+        }
+
+        .product-description {
+
+            max-width: 250px;
+
+            color: #999;
+
+            font-size: 10px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .category {
+
+            color: #d85c75;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .price {
+
+            font-weight: bold;
+
+            color: #292125;
+        }
+
+        /* =========================
+           STOCK
+        ========================= */
+
+        .stock-number {
+
+            display: inline-block;
+
+            min-width: 35px;
+
+            margin-right: 7px;
+
+            font-weight: bold;
+        }
+
+        .stock-available {
+
+            color: #4c9561;
+        }
+
+        .stock-low {
+
+            color: #c98932;
+        }
+
+        .stock-out {
+
+            color: #c44d4d;
+        }
+
+        .stock-badge {
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: bold;
+        }
+
+        .available-badge {
+
+            background: #eaf7ed;
+
+            color: #4c9561;
+        }
+
+        .low-badge {
+
+            background: #fff5df;
+
+            color: #b77a1c;
+        }
+
+        .out-badge {
+
+            background: #fff0f0;
+
+            color: #c44d4d;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+        .action-button {
+
+            padding: 7px 11px;
+
+            border-radius: 7px;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            border: 1px solid #eeeeee;
+
+            background: white;
+
+            color: #555;
+        }
+
+        .edit-button:hover {
+
+            border-color: #d85c75;
+
+            color: #d85c75;
+
+            background: #fff5f7;
+        }
+
+        .delete-button {
+
+            color: #c44d4d;
+
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+
+            background: #fff0f0;
+
+            border-color: #efc1c1;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+
+            padding: 70px 20px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+
+            margin-bottom: 15px;
+
+            font-size: 50px;
+        }
+
+        .empty h2 {
+
+            margin: 0 0 8px;
+
+            font-size: 20px;
+        }
+
+        .empty p {
+
+            margin: 0 0 20px;
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .topbar {
+
+                padding: 18px 5%;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .page-heading {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .add-button {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+            .content {
+
+                padding: 30px 15px 60px;
+            }
+
+            .heading-text h1 {
+
+                font-size: 28px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="page">
+
+
+        <!-- =========================
+         TOPBAR
+    ========================= -->
+
+        <header class="topbar">
+
+
+            <a href="{% url 'admin_dashboard' %}" class="logo">
+
+                🌸 Bloom & Blossom
+
+            </a>
+
+
+            <div class="top-links">
+
+
+                <a href="{% url 'admin_dashboard' %}">
+
+                    ← Dashboard
+
+                </a>
+
+
+                <a href="/">
+
+                    View Website
+
+                </a>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+         CONTENT
+    ========================= -->
+
+        <main class="content">
+
+
+            <div class="page-heading">
+
+
+                <div class="heading-text">
+
+
+                    <p>
+
+                        ADMINISTRATION
+
+                    </p>
+
+
+                    <h1>
+
+                        Manage Products
+
+                    </h1>
+
+
+                    <span>
+
+                        Add, edit, delete and manage
+                        product stock.
+
+                    </span>
+
+
+                </div>
+
+
+                <a href="{% url 'admin_add_product' %}" class="add-button">
+
+                    + Add New Product
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- =========================
+             PRODUCTS TABLE
+        ========================= -->
+
+            <section class="products-card">
+
+
+                <div class="card-top">
+
+
+                    <h2>
+
+                        All Products
+
+                    </h2>
+
+
+                    <span class="product-count">
+
+                        {{ products|length }} product{{ products|length|pluralize }}
+
+                    </span>
+
+
+                </div>
+
+
+
+                {% if products %}
+
+
+                <div class="table-wrapper">
+
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    PRODUCT
+                                </th>
+
+                                <th>
+                                    CATEGORY
+                                </th>
+
+                                <th>
+                                    PRICE
+                                </th>
+
+                                <th>
+                                    STOCK
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    ACTION
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for product in products %}
+
+
+                            <tr>
+
+
+                                <!-- PRODUCT -->
+
+                                <td>
+
+
+                                    <div class="product-info">
+
+
+                                        <div class="product-icon">
+
+                                            {{ product.emoji }}
+
+                                        </div>
+
+
+                                        <div>
+
+
+                                            <div class="product-name">
+
+                                                {{ product.name }}
+
+                                            </div>
+
+
+                                            <div class="product-description">
+
+                                                {{ product.description }}
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </td>
+
+
+
+                                <!-- CATEGORY -->
+
+                                <td>
+
+
+                                    <span class="category">
+
+                                        {{ product.category }}
+
+                                    </span>
+
+
+                                </td>
+
+
+
+                                <!-- PRICE -->
+
+                                <td>
+
+
+                                    <span class="price">
+
+                                        ৳ {{ product.price }}
+
+                                    </span>
+
+
+                                </td>
+
+
+
+                                <!-- STOCK -->
+
+                                <td>
+
+
+                                    {% if product.stock == 0 %}
+
+
+                                    <span class="stock-number stock-out">
+
+                                        {{ product.stock }}
+
+                                    </span>
+
+
+                                    {% elif product.stock <= 5 %} <span class="stock-number stock-low">
+
+                                        {{ product.stock }}
+
+                                        </span>
+
+
+                                        {% else %}
+
+
+                                        <span class="stock-number stock-available">
+
+                                            {{ product.stock }}
+
+                                        </span>
+
+
+                                        {% endif %}
+
+
+                                </td>
+
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+
+                                    {% if product.stock == 0 %}
+
+
+                                    <span class="stock-badge out-badge">
+
+                                        OUT OF STOCK
+
+                                    </span>
+
+
+                                    {% elif product.stock <= 5 %} <span class="stock-badge low-badge">
+
+                                        LOW STOCK
+
+                                        </span>
+
+
+                                        {% else %}
+
+
+                                        <span class="stock-badge available-badge">
+
+                                            AVAILABLE
+
+                                        </span>
+
+
+                                        {% endif %}
+
+
+                                </td>
+
+
+
+                                <!-- ACTION -->
+
+                                <td>
+
+
+                                    <div class="actions">
+
+
+                                        <a href="{% url 'admin_edit_product' product.id %}"
+                                            class="action-button edit-button">
+
+                                            Edit
+
+                                        </a>
+
+
+                                        <form method="POST" action="{% url 'admin_delete_product' product.id %}"
+                                            style="margin:0;"
+                                            onsubmit="return confirm('Are you sure you want to delete {{ product.name }}?');">
+
+                                            {% csrf_token %}
+
+
+                                            <button type="submit" class="action-button delete-button">
+
+                                                Delete
+
+                                            </button>
+
+
+                                        </form>
+
+
+                                    </div>
+
+
+                                </td>
+
+
+                            </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+                {% else %}
+
+
+                <div class="empty">
+
+
+                    <div class="empty-icon">
+
+                        🌷
+
+                    </div>
+
+
+                    <h2>
+
+                        No Products Yet
+
+                    </h2>
+
+
+                    <p>
+
+                        Add your first product to
+                        start selling.
+
+                    </p>
+
+
+                    <a href="{% url 'admin_add_product' %}" class="add-button">
+
+                        + Add Product
+
+                    </a>
+
+
+                </div>
+
+
+                {% endif %}
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</body>
+
+</html>

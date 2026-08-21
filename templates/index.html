@@ -1,0 +1,1379 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bloom & Blossom | Flower Bouquet Shop</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .account-link {
+            color: #292125;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 9px 14px;
+            border-radius: 22px;
+            transition: 0.3s;
+        }
+
+        .account-link:hover {
+            color: #d85c75;
+            background: #fff1f4;
+        }
+
+        .home-cart-link {
+            position: relative;
+            color: #292125;
+            text-decoration: none;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .home-cart-link span {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            border-radius: 50%;
+            background: #d85c75;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =========================
+           CATEGORY IMAGES
+        ========================= */
+
+        .category-icon {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fff1f4;
+        }
+
+
+        .category-real-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        /* =========================
+           HERO IMAGE
+        ========================= */
+
+        .hero-real-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            display: block;
+        }
+
+
+        .flower-circle {
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           FEATURED PRODUCT IMAGE
+        ========================= */
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .product-image {
+            overflow: hidden;
+        }
+
+
+        .product-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        .product-link:hover {
+            color: #d85c75;
+        }
+
+
+        /* =========================
+           BLOG IMAGES
+        ========================= */
+
+        .blog-real-image {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .blog-image {
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+    <header class="navbar">
+
+
+        <div class="logo">
+
+            🌸 Bloom & Blossom
+
+        </div>
+
+
+        <nav>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/shop/">
+                Shop
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+            <a href="#contact">
+                Contact
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+
+            <button type="button">
+                🔍
+            </button>
+
+
+            {% if user.is_authenticated %}
+
+            <a href="{% url 'dashboard' %}" class="account-link">
+
+                👤 {{ user.username }}
+
+            </a>
+
+            {% else %}
+
+            <a href="{% url 'customer_login' %}" class="account-link">
+
+                👤 Login
+
+            </a>
+
+
+            <a href="{% url 'register' %}" class="register-nav-link">
+
+                Register
+
+            </a>
+
+            {% endif %}
+
+
+            <a href="{% url 'cart' %}" class="home-cart-link">
+
+                🛒
+
+                <span>
+                    {{ cart_count }}
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =====================================================
+     HERO SECTION
+===================================================== -->
+
+    <section class="hero">
+
+
+        <div class="hero-content">
+
+
+            <p class="small-title">
+
+                BEAUTIFUL FLOWERS FOR EVERY MOMENT
+
+            </p>
+
+
+            <h1>
+
+                Say It With
+
+                <span>
+                    Flowers.
+                </span>
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Discover beautiful hand-crafted bouquets
+                made with love for every special occasion.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a href="/shop/" class="btn primary-btn">
+
+                    Shop Now
+
+                </a>
+
+
+                <a href="#categories" class="btn secondary-btn">
+
+                    Explore Bouquets
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- HERO IMAGE -->
+
+        <div class="hero-image">
+
+
+            <div class="flower-circle">
+
+
+                {% if products %}
+
+
+                {% with hero_product=products.0 %}
+
+
+                {% if hero_product.image %}
+
+                <img src="{{ hero_product.image.url }}" alt="{{ hero_product.name }}" class="hero-real-image">
+
+                {% else %}
+
+                <span style="font-size:100px;">
+
+                    {{ hero_product.emoji }}
+
+                </span>
+
+                {% endif %}
+
+
+                {% endwith %}
+
+
+                {% else %}
+
+                <span style="font-size:100px;">
+                    💐
+                </span>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     CATEGORY SECTION
+===================================================== -->
+
+    <section class="categories" id="categories">
+
+
+        <div class="section-heading">
+
+
+            <p>
+                EXPLORE OUR COLLECTION
+            </p>
+
+
+            <h2>
+                Shop By Category
+            </h2>
+
+
+        </div>
+
+
+
+        <div class="category-container">
+
+
+            <!-- ================= ROSES ================= -->
+
+            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
+
+
+                <div class="category-icon">
+
+
+                    {% if roses and roses.image %}
+
+
+                    <img src="{{ roses.image.url }}" alt="Roses" class="category-real-image">
+
+
+                    {% else %}
+
+                    <span style="font-size:70px;">
+                        🌹
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <h3>
+                    Roses
+                </h3>
+
+
+                <p>
+                    Beautiful roses
+                </p>
+
+
+            </a>
+
+
+
+            <!-- ================= TULIPS ================= -->
+
+            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
+
+
+                <div class="category-icon">
+
+
+                    {% if tulips and tulips.image %}
+
+
+                    <img src="{{ tulips.image.url }}" alt="Tulips" class="category-real-image">
+
+
+                    {% else %}
+
+                    <span style="font-size:70px;">
+                        🌷
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <h3>
+                    Tulips
+                </h3>
+
+
+                <p>
+                    Fresh tulips
+                </p>
+
+
+            </a>
+
+
+
+            <!-- ================= SUNFLOWERS ================= -->
+
+            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
+
+
+                <div class="category-icon">
+
+
+                    {% if sunflowers and sunflowers.image %}
+
+
+                    <img src="{{ sunflowers.image.url }}" alt="Sunflowers" class="category-real-image">
+
+
+                    {% else %}
+
+                    <span style="font-size:70px;">
+                        🌻
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <h3>
+                    Sunflowers
+                </h3>
+
+
+                <p>
+                    Bright sunflowers
+                </p>
+
+
+            </a>
+
+
+
+            <!-- ================= BOUQUETS ================= -->
+
+            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
+
+
+                <div class="category-icon">
+
+
+                    {% if bouquets and bouquets.image %}
+
+
+                    <img src="{{ bouquets.image.url }}" alt="Bouquets" class="category-real-image">
+
+
+                    {% else %}
+
+                    <span style="font-size:70px;">
+                        💐
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <h3>
+                    Bouquets
+                </h3>
+
+
+                <p>
+                    Beautiful bouquets
+                </p>
+
+
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     FEATURED PRODUCTS
+===================================================== -->
+
+    <section class="products">
+
+
+        <div class="section-heading">
+
+
+            <p>
+                OUR BEST SELLERS
+            </p>
+
+
+            <h2>
+                Featured Bouquets
+            </h2>
+
+
+        </div>
+
+
+
+        <div class="product-container">
+
+
+            {% for product in products|slice:":3" %}
+
+
+            <div class="product-card">
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <a href="{% url 'product_detail' product.id %}" class="product-link">
+
+
+                    <div class="product-image">
+
+
+                        {% if product.image %}
+
+
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="featured-image">
+
+
+                        {% else %}
+
+
+                        <span style="font-size:80px;">
+
+                            {{ product.emoji }}
+
+                        </span>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </a>
+
+
+
+                <!-- PRODUCT INFO -->
+
+                <div class="product-info">
+
+
+                    <p class="product-category">
+
+                        {{ product.category }}
+
+                    </p>
+
+
+                    <h3>
+
+
+                        <a href="{% url 'product_detail' product.id %}" class="product-link">
+
+                            {{ product.name }}
+
+                        </a>
+
+
+                    </h3>
+
+
+                    <div class="product-bottom">
+
+
+                        <strong>
+
+                            ৳ {{ product.price }}
+
+                        </strong>
+
+
+
+                        {% if product.stock > 0 %}
+
+
+                        <a href="{% url 'add_to_cart' product.id %}" class="cart-btn" style="text-decoration:none;">
+
+                            Add to Cart
+
+                        </a>
+
+
+                        {% else %}
+
+
+                        <span style="
+                                color:#c44c4c;
+                                font-size:11px;
+                                font-weight:bold;
+                                ">
+
+                            Out of Stock
+
+                        </span>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <p>
+                No products available yet.
+            </p>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     WHY CHOOSE US
+===================================================== -->
+
+    <section class="features" id="about">
+
+
+        <div class="section-heading">
+
+
+            <p>
+                WHY BLOOM & BLOSSOM
+            </p>
+
+
+            <h2>
+                We Make Every Moment Special
+            </h2>
+
+
+        </div>
+
+
+
+        <div class="feature-container">
+
+
+            <div class="feature">
+
+
+                <div>
+                    🌸
+                </div>
+
+
+                <h3>
+                    Fresh Flowers
+                </h3>
+
+
+                <p>
+
+                    Carefully selected fresh flowers
+                    for every beautiful bouquet.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div class="feature">
+
+
+                <div>
+                    🎁
+                </div>
+
+
+                <h3>
+                    Beautiful Packaging
+                </h3>
+
+
+                <p>
+
+                    Every order is beautifully packed
+                    and ready to gift.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div class="feature">
+
+
+                <div>
+                    🚚
+                </div>
+
+
+                <h3>
+                    Fast Delivery
+                </h3>
+
+
+                <p>
+
+                    Get your flowers delivered
+                    safely and quickly.
+
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     BLOG SECTION
+===================================================== -->
+
+    <section class="blog">
+
+
+        <div class="section-heading">
+
+
+            <p>
+                FROM OUR JOURNAL
+            </p>
+
+
+            <h2>
+                Flower & Gifting Ideas
+            </h2>
+
+
+        </div>
+
+
+
+        <div class="blog-container">
+
+
+            <!-- BLOG 1 -->
+
+            <article class="blog-card">
+
+
+                <div class="blog-image">
+
+
+                    {% if products|length > 0 %}
+
+
+                    {% with product=products.0 %}
+
+
+                    {% if product.image %}
+
+
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
+
+
+                    {% else %}
+
+
+                    🌹
+
+
+                    {% endif %}
+
+
+                    {% endwith %}
+
+
+                    {% else %}
+
+                    🌹
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <div class="blog-content">
+
+
+                    <p class="blog-date">
+                        March 12, 2026
+                    </p>
+
+
+                    <h3>
+                        How to Choose the Perfect Bouquet
+                    </h3>
+
+
+                    <p>
+
+                        Learn how to choose the right flowers
+                        for birthdays, anniversaries and other
+                        special occasions.
+
+                    </p>
+
+
+                    <a href="/shop/" class="read-more">
+
+                        Explore Flowers →
+
+                    </a>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <!-- BLOG 2 -->
+
+            <article class="blog-card">
+
+
+                <div class="blog-image">
+
+
+                    {% if products|length > 1 %}
+
+
+                    {% with product=products.1 %}
+
+
+                    {% if product.image %}
+
+
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
+
+
+                    {% else %}
+
+
+                    🌷
+
+
+                    {% endif %}
+
+
+                    {% endwith %}
+
+
+                    {% else %}
+
+                    🌷
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <div class="blog-content">
+
+
+                    <p class="blog-date">
+                        March 08, 2026
+                    </p>
+
+
+                    <h3>
+                        5 Flowers That Express Love
+                    </h3>
+
+
+                    <p>
+
+                        Discover beautiful flowers that can
+                        help you express love, friendship and
+                        heartfelt emotions.
+
+                    </p>
+
+
+                    <a href="/shop/" class="read-more">
+
+                        Explore Flowers →
+
+                    </a>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <!-- BLOG 3 -->
+
+            <article class="blog-card">
+
+
+                <div class="blog-image">
+
+
+                    {% if products|length > 2 %}
+
+
+                    {% with product=products.2 %}
+
+
+                    {% if product.image %}
+
+
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
+
+
+                    {% else %}
+
+
+                    🌻
+
+
+                    {% endif %}
+
+
+                    {% endwith %}
+
+
+                    {% else %}
+
+                    🌻
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <div class="blog-content">
+
+
+                    <p class="blog-date">
+                        February 28, 2026
+                    </p>
+
+
+                    <h3>
+                        Simple Tips to Keep Flowers Fresh
+                    </h3>
+
+
+                    <p>
+
+                        Follow these simple tips to keep your
+                        beautiful bouquet fresh and vibrant
+                        for longer.
+
+                    </p>
+
+
+                    <a href="/shop/" class="read-more">
+
+                        Explore Flowers →
+
+                    </a>
+
+
+                </div>
+
+
+            </article>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     REVIEWS
+===================================================== -->
+
+    <section class="reviews">
+
+
+        <div class="section-heading">
+
+
+            <p>
+                OUR HAPPY CUSTOMERS
+            </p>
+
+
+            <h2>
+                What Our Customers Say
+            </h2>
+
+
+        </div>
+
+
+
+        <div class="review-container">
+
+
+            <div class="review-card">
+
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+
+                <p class="review-text">
+
+                    "The bouquet was absolutely beautiful!
+                    The flowers were fresh and the packaging
+                    was lovely. My sister loved it."
+
+                </p>
+
+
+                <div class="customer">
+
+
+                    <div class="customer-avatar">
+                        S
+                    </div>
+
+
+                    <div>
+
+                        <h4>
+                            Sarah Ahmed
+                        </h4>
+
+                        <p>
+                            Rajshahi
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="review-card">
+
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+
+                <p class="review-text">
+
+                    "I ordered a birthday bouquet and it
+                    arrived on time. The flowers looked even
+                    better than the pictures!"
+
+                </p>
+
+
+                <div class="customer">
+
+
+                    <div class="customer-avatar">
+                        R
+                    </div>
+
+
+                    <div>
+
+                        <h4>
+                            Rafi Hasan
+                        </h4>
+
+                        <p>
+                            Rajshahi
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="review-card">
+
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+
+                <p class="review-text">
+
+                    "Beautiful flowers, excellent service and
+                    very friendly delivery. Definitely ordering
+                    again!"
+
+                </p>
+
+
+                <div class="customer">
+
+
+                    <div class="customer-avatar">
+                        N
+                    </div>
+
+
+                    <div>
+
+                        <h4>
+                            Nusrat Jahan
+                        </h4>
+
+                        <p>
+                            Rajshahi
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+
+    <footer id="contact">
+
+
+        <div class="footer-content">
+
+
+            <div>
+
+
+                <h2>
+                    🌸 Bloom & Blossom
+                </h2>
+
+
+                <p>
+
+                    Making every moment beautiful
+                    with flowers.
+
+                </p>
+
+
+            </div>
+
+
+
+            <div>
+
+
+                <h3>
+                    Quick Links
+                </h3>
+
+
+                <a href="/">
+                    Home
+                </a>
+
+
+                <a href="/shop/">
+                    Shop
+                </a>
+
+
+                <a href="#about">
+                    About
+                </a>
+
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+
+            </div>
+
+
+
+            <div>
+
+
+                <h3>
+                    Contact
+                </h3>
+
+
+                <p>
+                    📍 Rajshahi, Bangladesh
+                </p>
+
+
+                <p>
+                    📞 +880 1XXXXXXXXX
+                </p>
+
+
+                <p>
+                    ✉️ hello@bloom.com
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="copyright">
+
+            © 2026 Bloom & Blossom.
+            All Rights Reserved.
+
+        </div>
+
+
+    </footer>
+
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+
+
+</body>
+
+</html>

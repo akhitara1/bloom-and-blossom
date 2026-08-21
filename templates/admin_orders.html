@@ -1,0 +1,893 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Orders | Bloom & Blossom</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f5f6;
+            color: #292125;
+            font-family: Arial, sans-serif;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            min-height: 75px;
+
+            padding: 0 6%;
+
+            background: #292125;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #ddd;
+
+            font-size: 12px;
+
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 45px 20px 80px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .heading-text p {
+            margin: 0 0 7px;
+
+            color: #d85c75;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+        .heading-text h1 {
+            margin: 0 0 8px;
+
+            font-size: 32px;
+        }
+
+        .heading-text span {
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        .dashboard-button {
+            padding: 11px 17px;
+
+            border-radius: 25px;
+
+            background: white;
+
+            border: 1px solid #ddd;
+
+            color: #555;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+        }
+
+        .dashboard-button:hover {
+            border-color: #d85c75;
+
+            color: #d85c75;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+        .stat {
+            padding: 18px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 12px;
+        }
+
+        .stat-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #888;
+
+            font-size: 11px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+        .stat.pending .stat-number {
+            color: #c98932;
+        }
+
+        .stat.processing .stat-number {
+            color: #5b76b7;
+        }
+
+        .stat.shipped .stat-number {
+            color: #815db5;
+        }
+
+        .stat.delivered .stat-number {
+            color: #4c9561;
+        }
+
+        /* =========================
+           ORDER CARD
+        ========================= */
+
+        .orders-card {
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 15px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-header {
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #eee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .card-header h2 {
+            margin: 0;
+
+            font-size: 18px;
+        }
+
+        .card-header span {
+            color: #888;
+
+            font-size: 11px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 14px 16px;
+
+            background: #fff8f9;
+
+            color: #888;
+
+            font-size: 10px;
+
+            text-align: left;
+
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px;
+
+            border-bottom: 1px solid #f0eeee;
+
+            font-size: 12px;
+
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-id {
+            color: #d85c75;
+
+            font-weight: bold;
+        }
+
+        .customer-name {
+            font-weight: bold;
+
+            margin-bottom: 4px;
+        }
+
+        .customer-phone {
+            color: #999;
+
+            font-size: 10px;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        .payment {
+            color: #666;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           STATUS BADGES
+        ========================= */
+
+        .badge {
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff5df;
+
+            color: #b77a1c;
+        }
+
+        .processing {
+            background: #edf2ff;
+
+            color: #5870a8;
+        }
+
+        .shipped {
+            background: #f2ecff;
+
+            color: #7653a8;
+        }
+
+        .delivered {
+            background: #eaf7ed;
+
+            color: #438252;
+        }
+
+        .cancelled {
+            background: #fff0f0;
+
+            color: #c44d4d;
+        }
+
+        /* =========================
+           VIEW BUTTON
+        ========================= */
+
+        .view-button {
+            display: inline-block;
+
+            padding: 8px 13px;
+
+            border-radius: 8px;
+
+            background: #fff0f3;
+
+            color: #d85c75;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .view-button:hover {
+            background: #d85c75;
+
+            color: white;
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            padding: 70px 20px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            margin-bottom: 15px;
+
+            font-size: 45px;
+        }
+
+        .empty h2 {
+            margin: 0 0 8px;
+
+            font-size: 20px;
+        }
+
+        .empty p {
+            margin: 0;
+
+            color: #888;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .heading {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 18px 5%;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 12px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <header class="navbar">
+
+
+        <a href="{% url 'admin_dashboard' %}" class="logo">
+
+            🌸 Bloom & Blossom
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="{% url 'admin_dashboard' %}">
+
+                ← Dashboard
+
+            </a>
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =========================
+     PAGE
+========================= -->
+
+    <main class="page">
+
+
+        <div class="heading">
+
+
+            <div class="heading-text">
+
+                <p>
+                    ADMINISTRATION
+                </p>
+
+                <h1>
+                    Manage Orders
+                </h1>
+
+                <span>
+                    View customer orders and manage their status.
+                </span>
+
+            </div>
+
+
+            <a href="{% url 'admin_dashboard' %}" class="dashboard-button">
+
+                ← Back to Dashboard
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =========================
+         ORDER STATISTICS
+    ========================= -->
+
+        <div class="stats">
+
+
+            <div class="stat pending">
+
+                <span class="stat-label">
+                    Pending Orders
+                </span>
+
+                <div class="stat-number">
+
+                    {{ pending_count }}
+
+                </div>
+
+            </div>
+
+
+            <div class="stat processing">
+
+                <span class="stat-label">
+                    Processing Orders
+                </span>
+
+                <div class="stat-number">
+
+                    {{ processing_count }}
+
+                </div>
+
+            </div>
+
+
+            <div class="stat shipped">
+
+                <span class="stat-label">
+                    Shipped Orders
+                </span>
+
+                <div class="stat-number">
+
+                    {{ shipped_count }}
+
+                </div>
+
+            </div>
+
+
+            <div class="stat delivered">
+
+                <span class="stat-label">
+                    Delivered Orders
+                </span>
+
+                <div class="stat-number">
+
+                    {{ delivered_count }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+         ORDERS TABLE
+    ========================= -->
+
+        <section class="orders-card">
+
+
+            <div class="card-header">
+
+                <h2>
+                    All Orders
+                </h2>
+
+                <span>
+
+                    {{ orders|length }} order{{ orders|length|pluralize }}
+
+                </span>
+
+            </div>
+
+
+
+            {% if orders %}
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ORDER
+                            </th>
+
+                            <th>
+                                CUSTOMER
+                            </th>
+
+                            <th>
+                                LOCATION
+                            </th>
+
+                            <th>
+                                PAYMENT
+                            </th>
+
+                            <th>
+                                TOTAL
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTION
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for order in orders %}
+
+
+                        <tr>
+
+
+                            <!-- ORDER -->
+
+                            <td>
+
+                                <div class="order-id">
+
+                                    #{{ order.id }}
+
+                                </div>
+
+                                <div style="
+                                color:#999;
+                                font-size:9px;
+                                margin-top:4px;
+                                ">
+
+                                    {{ order.created_at|date:"d M Y, h:i A" }}
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <div class="customer-name">
+
+                                    {{ order.name }}
+
+                                </div>
+
+                                <div class="customer-phone">
+
+                                    {{ order.phone }}
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- LOCATION -->
+
+                            <td>
+
+                                {{ order.district }},
+                                {{ order.division }}
+
+                            </td>
+
+
+
+                            <!-- PAYMENT -->
+
+                            <td>
+
+                                <div class="payment">
+
+                                    {{ order.payment_method }}
+
+                                </div>
+
+                            </td>
+
+
+
+                            <!-- TOTAL -->
+
+                            <td>
+
+                                <span class="amount">
+
+                                    ৳ {{ order.total }}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+
+                                {% if order.status == "Pending" %}
+
+                                <span class="badge pending">
+
+                                    PENDING
+
+                                </span>
+
+
+                                {% elif order.status == "Processing" %}
+
+                                <span class="badge processing">
+
+                                    PROCESSING
+
+                                </span>
+
+
+                                {% elif order.status == "Shipped" %}
+
+                                <span class="badge shipped">
+
+                                    SHIPPED
+
+                                </span>
+
+
+                                {% elif order.status == "Delivered" %}
+
+                                <span class="badge delivered">
+
+                                    DELIVERED
+
+                                </span>
+
+
+                                {% elif order.status == "Cancelled" %}
+
+                                <span class="badge cancelled">
+
+                                    CANCELLED
+
+                                </span>
+
+
+                                {% else %}
+
+                                <span class="badge pending">
+
+                                    {{ order.status }}
+
+                                </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+
+                            <!-- ACTION -->
+
+                            <td>
+
+
+                                <a href="{% url 'admin_order_detail' order.id %}" class="view-button">
+
+                                    View Details →
+
+                                </a>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+            {% else %}
+
+
+            <div class="empty">
+
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+
+                <h2>
+                    No Orders Yet
+                </h2>
+
+
+                <p>
+                    Customer orders will appear here.
+                </p>
+
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+</body>
+
+</html>

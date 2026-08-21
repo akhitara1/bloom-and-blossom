@@ -1,0 +1,558 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | Bloom & Blossom</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #fffafa;
+            color: #292125;
+            font-family: Arial, sans-serif;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            min-height: 78px;
+            padding: 0 8%;
+            background: white;
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: #292125;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #444;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #d85c75;
+        }
+
+        .cart-link {
+            color: #292125;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        /* PAGE */
+
+        .page {
+            width: 90%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 50px 0 80px;
+        }
+
+        .heading {
+            margin-bottom: 35px;
+        }
+
+        .heading small {
+            color: #d85c75;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .heading h1 {
+            margin: 8px 0;
+            font-size: 40px;
+        }
+
+        .heading p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* PRODUCTS */
+
+        .products-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 28px;
+        }
+
+        .product-card {
+
+            overflow: hidden;
+
+            background: white;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 18px;
+
+            transition: 0.25s;
+        }
+
+        .product-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        /* IMAGE */
+
+        .product-image {
+
+            height: 280px;
+
+            background:
+                linear-gradient(145deg,
+                    #fff0f3,
+                    #ffe5e9);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .product-image img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .product-emoji {
+
+            font-size: 105px;
+        }
+
+        /* INFO */
+
+        .product-info {
+
+            padding: 22px;
+        }
+
+        .category {
+
+            margin-bottom: 7px;
+
+            color: #d85c75;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+        .product-name {
+
+            margin: 0 0 10px;
+
+            font-size: 20px;
+        }
+
+        .description {
+
+            min-height: 45px;
+
+            margin-bottom: 15px;
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        .bottom {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .price {
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .details-button {
+
+            padding: 10px 17px;
+
+            border-radius: 22px;
+
+            background: #d85c75;
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .details-button:hover {
+
+            background: #b94760;
+        }
+
+        .stock {
+
+            margin-top: 10px;
+
+            color: #4d9361;
+
+            font-size: 10px;
+        }
+
+        .out {
+
+            color: #c44c4c;
+        }
+
+        /* EMPTY */
+
+        .empty {
+
+            padding: 70px 20px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            border-radius: 18px;
+
+            text-align: center;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #888;
+            font-size: 13px;
+        }
+        .cart-link {
+    position: relative;
+    color: #292125;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.cart-link span {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 4px;
+
+    border-radius: 50%;
+
+    background: #d85c75;
+    color: white;
+
+    font-size: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .products-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 18px 5%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page {
+                width: 92%;
+            }
+
+            .products-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .product-image {
+                height: 300px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header class="navbar">
+
+        <a href="/" class="logo">
+            🌸 Bloom & Blossom
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="{% url 'shop' %}">
+                Shop
+            </a>
+
+            <a href="/#about">
+                About
+            </a>
+
+            <a href="/#contact">
+                Contact
+            </a>
+
+        </nav>
+
+
+        <a href="{% url 'cart' %}" class="cart-link">
+        
+            🛒
+        
+            <span>
+                {{ cart_count }}
+            </span>
+        
+        </a>
+
+    </header>
+
+
+
+    <main class="page">
+
+
+        <div class="heading">
+
+            <small>
+                OUR COLLECTION
+            </small>
+
+            <h1>
+                Fresh Flowers
+            </h1>
+
+            <p>
+                Choose something beautiful for
+                every special moment.
+            </p>
+
+        </div>
+
+
+
+        {% if products %}
+
+
+        <div class="products-grid">
+
+
+            {% for product in products %}
+
+
+            <div class="product-card">
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <div class="product-image">
+
+
+                    {% if product.image %}
+
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+                    {% else %}
+
+                    <span class="product-emoji">
+
+                        {{ product.emoji }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <!-- PRODUCT INFO -->
+
+                <div class="product-info">
+
+
+                    <div class="category">
+
+                        {{ product.category }}
+
+                    </div>
+
+
+                    <h2 class="product-name">
+
+                        {{ product.name }}
+
+                    </h2>
+
+
+                    <p class="description">
+
+                        {{ product.description|truncatechars:100 }}
+
+                    </p>
+
+
+                    <div class="bottom">
+
+
+                        <div class="price">
+
+                            ৳ {{ product.price }}
+
+                        </div>
+
+
+                        <a href="{% url 'product_detail' product.id %}" class="details-button">
+
+                            View Details
+
+                        </a>
+
+
+                    </div>
+
+
+                    {% if product.stock > 0 %}
+
+                    <div class="stock">
+
+                        ✓ {{ product.stock }}
+                        available
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="stock out">
+
+                        ✕ Out of Stock
+
+                    </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="empty">
+
+            <h2>
+                No Products Available
+            </h2>
+
+            <p>
+                Please check back later.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>

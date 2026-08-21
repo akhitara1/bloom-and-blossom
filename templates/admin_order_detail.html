@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order #{{ order.id }}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f8f5f6;
+            font-family: Arial, sans-serif;
+            color: #292125;
+        }
+
+        .navbar {
+            background: #292125;
+            padding: 20px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .back {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading small {
+            color: #d85c75;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .heading h1 {
+            margin: 8px 0;
+            font-size: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+
+            border-radius: 15px;
+            border: 1px solid #eee;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 13px;
+        }
+
+        .info:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #888;
+        }
+
+        .value {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        /* STATUS */
+
+        .status-box {
+            background: #fff7f9;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            border: 1px solid #f1dce1;
+        }
+
+        .status-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        select {
+            flex: 1;
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            background: white;
+
+            font-size: 13px;
+        }
+
+        button {
+            padding: 12px 20px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #d85c75;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #b94760;
+        }
+
+        .current {
+            margin-top: 12px;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+        .current strong {
+            color: #d85c75;
+        }
+
+        /* ITEMS */
+
+        .item {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: bold;
+
+            font-size: 13px;
+        }
+
+        .item-quantity {
+            color: #888;
+
+            font-size: 11px;
+
+            margin-top: 5px;
+        }
+
+        .item-price {
+            font-weight: bold;
+        }
+
+        .total {
+            margin-top: 20px;
+
+            padding-top: 20px;
+
+            border-top: 2px solid #eee;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .total span:last-child {
+            color: #d85c75;
+        }
+
+        .message {
+            padding: 12px 15px;
+
+            margin-bottom: 20px;
+
+            border-radius: 8px;
+
+            background: #eaf7ed;
+
+            color: #39734a;
+
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+
+            .status-form {
+                flex-direction: column;
+            }
+
+            .info {
+                gap: 15px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <a href="{% url 'admin_dashboard' %}" class="logo">
+            🌸 Bloom & Blossom
+        </a>
+
+
+        <a href="{% url 'admin_orders' %}" class="back">
+            ← All Orders
+        </a>
+
+    </div>
+
+
+
+    <div class="container">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <small>
+                ORDER MANAGEMENT
+            </small>
+
+            <h1>
+                Order #{{ order.id }}
+            </h1>
+
+        </div>
+
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="message">
+
+            {{ message }}
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- CUSTOMER -->
+
+        <div class="card">
+
+            <h2>
+                Customer Information
+            </h2>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Name
+                </span>
+
+                <span class="value">
+                    {{ order.name }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Phone
+                </span>
+
+                <span class="value">
+                    {{ order.phone }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Division
+                </span>
+
+                <span class="value">
+                    {{ order.division }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <span class="label">
+                    District
+                </span>
+
+                <span class="value">
+                    {{ order.district }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Address
+                </span>
+
+                <span class="value">
+                    {{ order.address }}
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- PAYMENT -->
+
+        <div class="card">
+
+            <h2>
+                Payment Information
+            </h2>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Payment Method
+                </span>
+
+                <span class="value">
+                    {{ order.payment_method }}
+                </span>
+
+            </div>
+
+
+            <div class="info">
+
+                <span class="label">
+                    Order Date
+                </span>
+
+                <span class="value">
+
+                    {{ order.created_at|date:"d M Y, h:i A" }}
+
+                </span>
+
+            </div>
+
+
+        </div>
+        {% if order.payment_method == "bKash" %}
+        
+        <div class="info">
+        
+            <span class="label">
+                bKash Number
+            </span>
+        
+            <span class="value">
+                {{ order.bkash_number }}
+            </span>
+        
+        </div>
+        
+        
+        <div class="info">
+        
+            <span class="label">
+                Transaction ID
+            </span>
+        
+            <span class="value">
+                {{ order.transaction_id }}
+            </span>
+        
+        </div>
+        
+        {% endif %}
+
+
+
+        <!-- STATUS -->
+
+        <div class="card">
+
+            <h2>
+                Update Order Status
+            </h2>
+
+
+            <div class="status-box">
+
+
+                <form method="POST" action="{% url 'admin_update_order_status' order.id %}" class="status-form">
+
+                    {% csrf_token %}
+
+
+                    <select name="status">
+
+
+                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>
+                            Pending
+                        </option>
+
+
+                        <option value="Processing" {% if order.status == "Processing" %}selected{% endif %}>
+                            Processing
+                        </option>
+
+
+                        <option value="Shipped" {% if order.status == "Shipped" %}selected{% endif %}>
+                            Shipped
+                        </option>
+
+
+                        <option value="Delivered" {% if order.status == "Delivered" %}selected{% endif %}>
+                            Delivered
+                        </option>
+
+
+                        <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>
+                            Cancelled
+                        </option>
+
+
+                    </select>
+
+
+                    <button type="submit">
+
+                        Update Status
+
+                    </button>
+
+
+                </form>
+
+
+                <div class="current">
+
+                    Current Status:
+
+                    <strong>
+                        {{ order.status }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ORDER ITEMS -->
+
+        <div class="card">
+
+            <h2>
+                Ordered Products
+            </h2>
+
+
+            {% for item in order.items.all %}
+
+
+            <div class="item">
+
+
+                <div>
+
+                    <div class="item-name">
+
+                        {% if item.product %}
+
+                        {{ item.product.name }}
+
+                        {% else %}
+
+                        Deleted Product
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="item-quantity">
+
+                        Quantity:
+                        {{ item.quantity }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="item-price">
+
+                    ৳ {{ item.subtotal }}
+
+                </div>
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <p style="color:#999;">
+
+                No products found.
+
+            </p>
+
+
+            {% endfor %}
+
+
+
+            <div class="total">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ৳ {{ order.total }}
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

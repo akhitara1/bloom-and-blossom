@@ -1,0 +1,490 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product | Bloom & Blossom</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #fffafa;
+            color: #292125;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            min-height: 75px;
+            padding: 0 7%;
+            background: #292125;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #ddd;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        .page {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 55px 20px 90px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading p {
+            margin: 0 0 8px;
+            color: #d85c75;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .heading h1 {
+            margin: 0 0 8px;
+            font-size: 34px;
+        }
+
+        .heading span {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .form-card {
+            padding: 35px;
+            background: white;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+
+            color: #333;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #ddd;
+            border-radius: 9px;
+
+            outline: none;
+
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #d85c75;
+
+            box-shadow:
+                0 0 0 3px rgba(216, 92, 117, 0.10);
+        }
+
+        .stock-note {
+            margin-top: 7px;
+
+            color: #888;
+
+            font-size: 11px;
+        }
+
+        .button-row {
+            margin-top: 30px;
+
+            display: flex;
+
+            gap: 12px;
+        }
+
+        .save-button {
+            border: none;
+
+            padding: 14px 25px;
+
+            border-radius: 30px;
+
+            background: #d85c75;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #b94760;
+        }
+
+        .cancel-button {
+            padding: 14px 25px;
+
+            border-radius: 30px;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            color: #555;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+        .cancel-button:hover {
+            background: #fff5f7;
+
+            color: #d85c75;
+        }
+
+        @media (max-width: 650px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .form-card {
+                padding: 25px 20px;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <header class="navbar">
+
+        <a href="{% url 'admin_dashboard' %}" class="logo">
+
+            🌸 Bloom & Blossom
+
+        </a>
+
+
+        <a href="{% url 'admin_products' %}" class="back-link">
+
+            ← Manage Products
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =========================
+         PAGE
+    ========================= -->
+
+    <main class="page">
+
+
+        <div class="heading">
+
+            <p>
+                PRODUCT MANAGEMENT
+            </p>
+
+            <h1>
+                Edit Product
+            </h1>
+
+            <span>
+                Update product information and stock.
+            </span>
+
+        </div>
+
+
+
+        <!-- =========================
+             EDIT FORM
+        ========================= -->
+
+        <form method="POST" class="form-card">
+
+            {% csrf_token %}
+
+
+            <div class="form-grid">
+
+
+                <!-- PRODUCT NAME -->
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Product Name
+                    </label>
+
+                    <input type="text" id="name" name="name" value="{{ product.name }}" required>
+
+                </div>
+
+
+
+                <!-- CATEGORY -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select id="category" name="category" required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+
+                        {% if product.category == "Roses" %}
+
+                        <option value="Roses" selected>
+                            Roses
+                        </option>
+
+                        {% else %}
+
+                        <option value="Roses">
+                            Roses
+                        </option>
+
+                        {% endif %}
+
+
+
+                        {% if product.category == "Tulips" %}
+
+                        <option value="Tulips" selected>
+                            Tulips
+                        </option>
+
+                        {% else %}
+
+                        <option value="Tulips">
+                            Tulips
+                        </option>
+
+                        {% endif %}
+
+
+
+                        {% if product.category == "Sunflowers" %}
+
+                        <option value="Sunflowers" selected>
+                            Sunflowers
+                        </option>
+
+                        {% else %}
+
+                        <option value="Sunflowers">
+                            Sunflowers
+                        </option>
+
+                        {% endif %}
+
+
+
+                        {% if product.category == "Bouquets" %}
+
+                        <option value="Bouquets" selected>
+                            Bouquets
+                        </option>
+
+                        {% else %}
+
+                        <option value="Bouquets">
+                            Bouquets
+                        </option>
+
+                        {% endif %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- PRICE -->
+
+                <div class="form-group">
+
+                    <label for="price">
+                        Price (৳)
+                    </label>
+
+                    <input type="number" id="price" name="price" step="0.01" min="0" value="{{ product.price }}"
+                        required>
+
+                </div>
+
+
+
+                <!-- STOCK -->
+
+                <div class="form-group">
+
+                    <label for="stock">
+                        Stock
+                    </label>
+
+                    <input type="number" id="stock" name="stock" min="0" value="{{ product.stock }}" required>
+
+                    <div class="stock-note">
+
+                        Current stock:
+                        {{ product.stock }}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMOJI -->
+
+                <div class="form-group full">
+
+                    <label for="emoji">
+                        Product Emoji
+                    </label>
+
+                    <input type="text" id="emoji" name="emoji" maxlength="10" value="{{ product.emoji }}">
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group full">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea id="description" name="description" required>{{ product.description }}</textarea>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="button-row">
+
+                <button type="submit" class="save-button">
+
+                    ✓ Save Changes
+
+                </button>
+
+
+                <a href="{% url 'admin_products' %}" class="cancel-button">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1234 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart | Bloom & Blossom</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: #fffafa;
+
+            color: #292125;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .cart-navbar {
+
+            width: 100%;
+
+            min-height: 78px;
+
+            padding: 0 8%;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .cart-logo {
+
+            color: #292125;
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+        }
+
+
+        .cart-nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .cart-nav-links a {
+
+            color: #292125;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+            transition: 0.3s;
+        }
+
+
+        .cart-nav-links a:hover {
+
+            color: #d85c75;
+        }
+
+
+        .cart-account-link {
+
+            padding: 9px 14px;
+
+            border-radius: 22px;
+
+            background: transparent;
+
+            white-space: nowrap;
+        }
+
+
+        .cart-account-link:hover {
+
+            background: #fff1f4;
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .cart-page {
+
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 65px 20px 100px;
+        }
+
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        .cart-heading {
+
+            margin-bottom: 40px;
+
+            text-align: center;
+        }
+
+
+        .cart-heading p {
+
+            margin: 0 0 10px;
+
+            color: #d85c75;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+        }
+
+
+        .cart-heading h1 {
+
+            margin: 0 0 10px;
+
+            color: #292125;
+
+            font-size: 42px;
+        }
+
+
+        .cart-heading span {
+
+            color: #888888;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           CART LAYOUT
+        ========================= */
+
+        .cart-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                1.7fr 0.8fr;
+
+            gap: 30px;
+
+            align-items: start;
+        }
+
+
+        /* =========================
+           CART ITEMS
+        ========================= */
+
+        .cart-items {
+
+            background: #ffffff;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.04);
+        }
+
+
+        .cart-items-header {
+
+            padding: 22px 25px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .cart-items-header h2 {
+
+            margin: 0;
+
+            font-size: 20px;
+        }
+
+
+        .cart-items-header span {
+
+            color: #888888;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           ITEM
+        ========================= */
+
+        .cart-item {
+
+            padding: 25px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: grid;
+
+            grid-template-columns:
+                100px 1fr auto;
+
+            gap: 20px;
+
+            align-items: center;
+        }
+
+
+        .cart-item:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .cart-item-image {
+
+            width: 100px;
+
+            height: 100px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(145deg,
+                    #fff0f3,
+                    #ffe5e9);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 48px;
+        }
+
+
+        .cart-item-info h3 {
+
+            margin: 0 0 7px;
+
+            color: #292125;
+
+            font-size: 18px;
+        }
+
+
+        .cart-item-info p {
+
+            margin: 0 0 10px;
+
+            color: #888888;
+
+            font-size: 12px;
+        }
+
+
+        .cart-item-price {
+
+            color: #d85c75;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           QUANTITY
+        ========================= */
+
+        .quantity-control {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 12px;
+        }
+
+
+        .quantity-button {
+
+            width: 30px;
+
+            height: 30px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 50%;
+
+            background: #ffffff;
+
+            color: #292125;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+
+        .quantity-button:hover {
+
+            border-color: #d85c75;
+
+            color: #d85c75;
+
+            background: #fff3f5;
+        }
+
+
+        .quantity-number {
+
+            min-width: 25px;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           ITEM RIGHT
+        ========================= */
+
+        .cart-item-right {
+
+            min-width: 120px;
+
+            text-align: right;
+        }
+
+
+        .item-subtotal {
+
+            margin-bottom: 15px;
+
+            color: #292125;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .remove-link {
+
+            color: #b94a48;
+
+            font-size: 12px;
+
+            text-decoration: none;
+        }
+
+
+        .remove-link:hover {
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .cart-summary {
+
+            padding: 30px;
+
+            background: #292125;
+
+            border-radius: 18px;
+
+            color: #ffffff;
+
+            position: sticky;
+
+            top: 25px;
+        }
+
+
+        .cart-summary h2 {
+
+            margin: 0 0 25px;
+
+            font-size: 22px;
+        }
+
+
+        .summary-row {
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #454045;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .summary-row span {
+
+            color: #bbbbbb;
+
+            font-size: 13px;
+        }
+
+
+        .summary-row strong {
+
+            color: #ffffff;
+
+            font-size: 14px;
+        }
+
+
+        .summary-total {
+
+            padding: 20px 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .summary-total span {
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+
+        .summary-total strong {
+
+            color: #ffffff;
+
+            font-size: 24px;
+        }
+
+
+        /* =========================
+           CHECKOUT
+        ========================= */
+
+        .checkout-button {
+
+            width: 100%;
+
+            padding: 14px 20px;
+
+            border-radius: 30px;
+
+            background: #d85c75;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            display: block;
+
+            transition: 0.3s;
+        }
+
+
+        .checkout-button:hover {
+
+            background: #b94760;
+
+            transform: translateY(-2px);
+        }
+
+
+        .continue-shopping {
+
+            display: block;
+
+            margin-top: 15px;
+
+            color: #ffffff;
+
+            font-size: 12px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            opacity: 0.75;
+        }
+
+
+        .continue-shopping:hover {
+
+            opacity: 1;
+        }
+
+
+        /* =========================
+           EMPTY CART
+        ========================= */
+
+        .empty-cart {
+
+            max-width: 650px;
+
+            margin: 0 auto;
+
+            padding: 70px 25px;
+
+            background: #ffffff;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow:
+                0 7px 25px rgba(0, 0, 0, 0.04);
+        }
+
+
+        .empty-cart-icon {
+
+            margin-bottom: 15px;
+
+            font-size: 55px;
+        }
+
+
+        .empty-cart h2 {
+
+            margin: 0 0 10px;
+
+            font-size: 24px;
+        }
+
+
+        .empty-cart p {
+
+            margin: 0 0 25px;
+
+            color: #888888;
+
+            font-size: 14px;
+        }
+
+
+        .shop-button {
+
+            display: inline-block;
+
+            padding: 13px 25px;
+
+            border-radius: 30px;
+
+            background: #d85c75;
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+
+
+        .shop-button:hover {
+
+            background: #b94760;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .cart-footer {
+
+            padding: 50px 8% 20px;
+
+            background: #292125;
+
+            color: #ffffff;
+
+            text-align: center;
+        }
+
+
+        .cart-footer h2 {
+
+            margin: 0 0 10px;
+
+            font-size: 22px;
+        }
+
+
+        .cart-footer p {
+
+            margin: 0;
+
+            color: #aaaaaa;
+
+            font-size: 13px;
+        }
+
+
+        .cart-copyright {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #444444;
+
+            color: #888888;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .cart-navbar {
+
+                padding: 20px 5%;
+
+                flex-wrap: wrap;
+            }
+
+
+            .cart-nav-links {
+
+                width: 100%;
+
+                justify-content: center;
+
+                order: 3;
+            }
+
+
+            .cart-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .cart-summary {
+
+                position: static;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .cart-logo {
+
+                font-size: 21px;
+            }
+
+
+            .cart-page {
+
+                padding: 45px 15px 70px;
+            }
+
+
+            .cart-heading h1 {
+
+                font-size: 32px;
+            }
+
+
+            .cart-item {
+
+                grid-template-columns: 75px 1fr;
+
+                gap: 15px;
+            }
+
+
+            .cart-item-image {
+
+                width: 75px;
+
+                height: 75px;
+
+                font-size: 38px;
+            }
+
+
+            .cart-item-right {
+
+                grid-column: 2;
+
+                min-width: auto;
+
+                text-align: left;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: space-between;
+
+                gap: 15px;
+            }
+
+
+            .item-subtotal {
+
+                margin: 0;
+            }
+
+
+            .cart-nav-links {
+
+                gap: 10px;
+
+                flex-wrap: wrap;
+            }
+
+
+            .cart-account-link {
+
+                padding: 7px 10px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <header class="cart-navbar">
+
+
+        <a href="/" class="cart-logo">
+
+            🌸 Bloom & Blossom
+
+        </a>
+
+
+        <div class="cart-nav-links">
+
+
+            <a href="/shop/">
+
+                ← Continue Shopping
+
+            </a>
+
+
+            {% if user.is_authenticated %}
+            
+            <a href="{% url 'dashboard' %}" class="account-link">
+            
+                👤 {{ user.username }}
+            
+            </a>
+            
+            {% else %}
+            
+            <a href="{% url 'customer_login' %}" class="account-link">
+            
+                👤 Login
+            
+            </a>
+            
+            <a href="{% url 'register' %}" class="register-nav-link">
+            
+                Register
+            
+            </a>
+            
+            {% endif %}
+
+
+        </div>
+
+
+    </header>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="cart-page">
+
+
+        <!-- HEADING -->
+
+        <div class="cart-heading">
+
+
+            <p>
+                YOUR SHOPPING BAG
+            </p>
+
+
+            <h1>
+                Shopping Cart
+            </h1>
+
+
+            <span>
+                Review your selected flowers
+                before checkout.
+            </span>
+
+
+        </div>
+
+
+
+        {% if products %}
+
+
+        <!-- =========================
+             CART LAYOUT
+        ========================= -->
+
+        <div class="cart-layout">
+
+
+            <!-- =====================
+                 ITEMS
+            ====================== -->
+
+            <section class="cart-items">
+
+
+                <div class="cart-items-header">
+
+
+                    <h2>
+                        Cart Items
+                    </h2>
+
+
+                    <span>
+
+                        {{ cart_count }} item{{ cart_count|pluralize }}
+
+                    </span>
+
+
+                </div>
+
+
+
+                {% for item in products %}
+
+
+                <div class="cart-item">
+
+
+                    <!-- IMAGE -->
+
+                    <div class="cart-item-image">
+
+                        {{ item.product.emoji }}
+
+                    </div>
+
+
+
+                    <!-- INFO -->
+
+                    <div class="cart-item-info">
+
+
+                        <h3>
+
+                            {{ item.product.name }}
+
+                        </h3>
+
+
+                        <p>
+
+                            {{ item.product.category }}
+
+                        </p>
+
+
+                        <div class="cart-item-price">
+
+                            ৳ {{ item.product.price }}
+
+                        </div>
+
+
+
+                        <!-- QUANTITY -->
+
+                        <div class="quantity-control">
+
+
+                            <a href="{% url 'decrease_quantity' item.product.id %}" class="quantity-button">
+
+                                −
+
+                            </a>
+
+
+                            <span class="quantity-number">
+
+                                {{ item.quantity }}
+
+                            </span>
+
+
+                            <a href="{% url 'increase_quantity' item.product.id %}" class="quantity-button">
+
+                                +
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- RIGHT -->
+
+                    <div class="cart-item-right">
+
+
+                        <div class="item-subtotal">
+
+                            ৳ {{ item.subtotal }}
+
+                        </div>
+
+
+                        <a href="{% url 'remove_from_cart' item.product.id %}" class="remove-link">
+
+                            Remove
+
+                        </a>
+
+
+                    </div>
+
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </section>
+
+
+
+            <!-- =====================
+                 SUMMARY
+            ====================== -->
+
+            <aside class="cart-summary">
+
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+
+                <div class="summary-row">
+
+
+                    <span>
+                        Subtotal
+                    </span>
+
+
+                    <strong>
+
+                        ৳ {{ total }}
+
+                    </strong>
+
+
+                </div>
+
+
+
+                <div class="summary-row">
+
+
+                    <span>
+                        Delivery
+                    </span>
+
+
+                    <strong>
+                        Free
+                    </strong>
+
+
+                </div>
+
+
+
+                <div class="summary-total">
+
+
+                    <span>
+                        Total
+                    </span>
+
+
+                    <strong>
+
+                        ৳ {{ total }}
+
+                    </strong>
+
+
+                </div>
+
+
+
+                <a href="{% url 'checkout' %}" class="checkout-button">
+
+                    Proceed to Checkout
+
+                </a>
+
+
+                <a href="/shop/" class="continue-shopping">
+
+                    Continue Shopping
+
+                </a>
+
+
+            </aside>
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <!-- =========================
+             EMPTY CART
+        ========================= -->
+
+        <div class="empty-cart">
+
+
+            <div class="empty-cart-icon">
+
+                🛒
+
+            </div>
+
+
+            <h2>
+
+                Your Cart is Empty
+
+            </h2>
+
+
+            <p>
+
+                Looks like you haven't added
+                any flowers yet.
+
+            </p>
+
+
+            <a href="/shop/" class="shop-button">
+
+                Start Shopping
+
+            </a>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer class="cart-footer">
+
+
+        <h2>
+
+            🌸 Bloom & Blossom
+
+        </h2>
+
+
+        <p>
+
+            Making every moment beautiful
+            with flowers.
+
+        </p>
+
+
+        <div class="cart-copyright">
+
+            © 2026 Bloom & Blossom.
+            All Rights Reserved.
+
+        </div>
+
+
+    </footer>
+
+
+</body>
+
+</html>

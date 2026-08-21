@@ -1,0 +1,1327 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Checkout | Bloom & Blossom
+    </title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: #fffafa;
+
+            color: #292125;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            min-height: 78px;
+
+            padding: 0 8%;
+
+            background: white;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .logo {
+
+            color: #292125;
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+        }
+
+
+        .back-link {
+
+            color: #d85c75;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-decoration: none;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+
+            width: 90%;
+
+            max-width: 1150px;
+
+            margin: 0 auto;
+
+            padding: 45px 0 80px;
+
+        }
+
+
+        .heading {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .heading small {
+
+            color: #d85c75;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            letter-spacing: 3px;
+
+        }
+
+
+        .heading h1 {
+
+            margin: 8px 0;
+
+            font-size: 34px;
+
+        }
+
+
+        .heading p {
+
+            margin: 0;
+
+            color: #888;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .checkout-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.45fr) minmax(320px, 0.75fr);
+
+            gap: 28px;
+
+            align-items: start;
+
+        }
+
+
+        .card {
+
+            background: white;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 16px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.035);
+
+        }
+
+
+        .card+.card {
+
+            margin-top: 20px;
+
+        }
+
+
+        .card h2 {
+
+            margin: 0 0 22px;
+
+            font-size: 19px;
+
+        }
+
+
+        /* =========================
+           MESSAGES
+        ========================= */
+
+        .messages {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .message {
+
+            padding: 13px 16px;
+
+            margin-bottom: 10px;
+
+            border-radius: 9px;
+
+            background: #fff1f4;
+
+            color: #b94760;
+
+            font-size: 12px;
+
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+
+        }
+
+
+        .form-group {
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #555;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #292125;
+
+            font-family: inherit;
+
+            font-size: 13px;
+
+            outline: none;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #d85c75;
+
+            box-shadow:
+                0 0 0 3px rgba(216, 92, 117, 0.08);
+
+        }
+
+
+        textarea {
+
+            min-height: 105px;
+
+            resize: vertical;
+
+        }
+
+
+        /* =========================
+           PAYMENT
+        ========================= */
+
+        .payment-options {
+
+            display: grid;
+
+            gap: 12px;
+
+        }
+
+
+        .payment-option {
+
+            position: relative;
+
+        }
+
+
+        .payment-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .payment-label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 16px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+        }
+
+
+        .payment-label:hover {
+
+            border-color: #d85c75;
+
+            background: #fff9fa;
+
+        }
+
+
+        .payment-option input:checked+.payment-label {
+
+            border-color: #d85c75;
+
+            background: #fff4f7;
+
+        }
+
+
+        .payment-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 9px;
+
+            background: #fff0f3;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+        }
+
+
+        .payment-info strong {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 13px;
+
+        }
+
+
+        .payment-info span {
+
+            color: #999;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================
+           BKASH
+        ========================= */
+
+        #bkash-section {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 20px;
+
+            background: #fff5f8;
+
+            border: 1px solid #f0d8df;
+
+            border-radius: 13px;
+
+        }
+
+
+        .bkash-title {
+
+            margin: 0 0 8px;
+
+            font-size: 17px;
+
+        }
+
+
+        .bkash-description {
+
+            margin: 0 0 16px;
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .bkash-number {
+
+            margin-bottom: 15px;
+
+            padding: 13px;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #555;
+
+            font-size: 12px;
+
+        }
+
+
+        .bkash-number strong {
+
+            color: #d85c75;
+
+            font-size: 14px;
+
+        }
+
+
+        .bkash-field {
+
+            margin-bottom: 12px;
+
+        }
+
+
+        /* =========================
+           ORDER SUMMARY
+        ========================= */
+
+        .summary-card {
+
+            position: sticky;
+
+            top: 20px;
+
+        }
+
+
+        .summary-item {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 14px 0;
+
+            border-bottom: 1px solid #eeeeee;
+
+        }
+
+
+        .summary-item:first-child {
+
+            padding-top: 0;
+
+        }
+
+
+        .summary-name {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .summary-quantity {
+
+            margin-top: 4px;
+
+            color: #999;
+
+            font-size: 10px;
+
+        }
+
+
+        .summary-price {
+
+            white-space: nowrap;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .total-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 20px;
+
+            padding-top: 18px;
+
+            border-top: 2px solid #eeeeee;
+
+        }
+
+
+        .total-row span:first-child {
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+        }
+
+
+        .total-price {
+
+            color: #d85c75;
+
+            font-size: 23px;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           PLACE ORDER
+        ========================= */
+
+        .place-order {
+
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background: #d85c75;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+
+        }
+
+
+        .place-order:hover {
+
+            background: #b94760;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .secure-text {
+
+            margin: 14px 0 0;
+
+            color: #999;
+
+            text-align: center;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            padding: 30px;
+
+            background: #292125;
+
+            color: #aaa;
+
+            text-align: center;
+
+            font-size: 11px;
+
+        }
+
+
+        footer strong {
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .checkout-layout {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .summary-card {
+
+                position: static;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 18px 5%;
+
+            }
+
+
+            .page {
+
+                width: 92%;
+
+                padding-top: 30px;
+
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .full {
+
+                grid-column: auto;
+
+            }
+
+
+            .card {
+
+                padding: 20px;
+
+            }
+
+
+            .heading h1 {
+
+                font-size: 28px;
+
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+     NAVBAR
+========================= -->
+
+    <header class="navbar">
+
+
+        <a href="/" class="logo">
+
+            🌸 Bloom & Blossom
+
+        </a>
+
+
+        <a href="{% url 'cart' %}" class="back-link">
+
+            ← Back to Cart
+
+        </a>
+
+
+    </header>
+
+
+
+    <!-- =========================
+     PAGE
+========================= -->
+
+    <main class="page">
+
+
+        <div class="heading">
+
+            <small>
+                SECURE CHECKOUT
+            </small>
+
+            <h1>
+                Complete Your Order
+            </h1>
+
+            <p>
+                Enter your delivery details and choose
+                your preferred payment method.
+            </p>
+
+        </div>
+
+
+
+        <!-- MESSAGES -->
+
+        {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =========================
+         FORM
+    ========================= -->
+
+        <form method="POST" action="{% url 'checkout' %}">
+
+            {% csrf_token %}
+
+
+            <div class="checkout-layout">
+
+
+                <!-- =====================
+                 LEFT
+            ====================== -->
+
+                <div>
+
+
+                    <!-- CUSTOMER INFORMATION -->
+
+                    <div class="card">
+
+                        <h2>
+                            Delivery Information
+                        </h2>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Full Name
+                                </label>
+
+                                <input type="text" name="name" placeholder="Enter your full name" required>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Phone Number
+                                </label>
+
+                                <input type="tel" name="phone" placeholder="01XXXXXXXXX" required>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Division
+                                </label>
+
+                                <select name="division" required>
+
+                                    <option value="">
+                                        Select Division
+                                    </option>
+
+                                    <option value="Dhaka">
+                                        Dhaka
+                                    </option>
+
+                                    <option value="Chattogram">
+                                        Chattogram
+                                    </option>
+
+                                    <option value="Rajshahi">
+                                        Rajshahi
+                                    </option>
+
+                                    <option value="Khulna">
+                                        Khulna
+                                    </option>
+
+                                    <option value="Barishal">
+                                        Barishal
+                                    </option>
+
+                                    <option value="Sylhet">
+                                        Sylhet
+                                    </option>
+
+                                    <option value="Rangpur">
+                                        Rangpur
+                                    </option>
+
+                                    <option value="Mymensingh">
+                                        Mymensingh
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    District
+                                </label>
+
+                                <input type="text" name="district" placeholder="Enter your district" required>
+
+                            </div>
+
+
+
+                            <div class="form-group full">
+
+                                <label>
+                                    Delivery Address
+                                </label>
+
+                                <textarea name="address" placeholder="House / Road / Area / Full delivery address"
+                                    required></textarea>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PAYMENT -->
+
+                    <div class="card">
+
+                        <h2>
+                            Payment Method
+                        </h2>
+
+
+                        <div class="payment-options">
+
+
+                            <!-- COD -->
+
+                            <div class="payment-option">
+
+
+                                <input type="radio" id="cod" name="payment_method" value="Cash on Delivery" checked>
+
+
+                                <label for="cod" class="payment-label">
+
+                                    <div class="payment-icon">
+                                        💵
+                                    </div>
+
+
+                                    <div class="payment-info">
+
+                                        <strong>
+                                            Cash on Delivery
+                                        </strong>
+
+                                        <span>
+                                            Pay when your order arrives.
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                            </div>
+
+
+
+                            <!-- BKASH -->
+
+                            <div class="payment-option">
+
+
+                                <input type="radio" id="bkash" name="payment_method" value="bKash">
+
+
+                                <label for="bkash" class="payment-label">
+
+                                    <div class="payment-icon">
+                                        💳
+                                    </div>
+
+
+                                    <div class="payment-info">
+
+                                        <strong>
+                                            bKash
+                                        </strong>
+
+                                        <span>
+                                            Pay using your bKash account.
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- BKASH DETAILS -->
+
+                        <div id="bkash-section">
+
+
+                            <h3 class="bkash-title">
+
+                                💳 bKash Payment
+
+                            </h3>
+
+
+                            <p class="bkash-description">
+
+                                Send the total amount to our
+                                bKash number and enter your
+                                payment information below.
+
+                            </p>
+
+
+                            <div class="bkash-number">
+
+                                bKash Payment Number:
+
+                                <strong>
+                                    01XXXXXXXXX
+                                </strong>
+
+                            </div>
+
+
+                            <div class="bkash-field">
+
+                                <label>
+                                    Your bKash Number
+                                </label>
+
+                                <input type="tel" name="bkash_number" id="bkash_number" placeholder="01XXXXXXXXX">
+
+                            </div>
+
+
+                            <div class="bkash-field">
+
+                                <label>
+                                    Transaction ID
+                                </label>
+
+                                <input type="text" name="transaction_id" id="transaction_id"
+                                    placeholder="Enter bKash Transaction ID">
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =====================
+                 RIGHT
+            ====================== -->
+
+                <aside class="card summary-card">
+
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+
+                    {% for item in products %}
+
+
+                    <div class="summary-item">
+
+
+                        <div>
+
+                            <div class="summary-name">
+
+                                {{ item.product.name }}
+
+                            </div>
+
+
+                            <div class="summary-quantity">
+
+                                Quantity:
+                                {{ item.quantity }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-price">
+
+                            ৳ {{ item.subtotal }}
+
+                        </div>
+
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+
+                    <div class="total-row">
+
+                        <span>
+                            Total
+                        </span>
+
+
+                        <span class="total-price">
+
+                            ৳ {{ total }}
+
+                        </span>
+
+                    </div>
+
+
+
+                    <button type="submit" class="place-order">
+
+                        🛍 Place Order
+
+                    </button>
+
+
+                    <p class="secure-text">
+
+                        🔒 Your order information is secure.
+
+                    </p>
+
+
+                </aside>
+
+
+            </div>
+
+
+        </form>
+
+
+    </main>
+
+
+
+    <!-- =========================
+     FOOTER
+========================= -->
+
+    <footer>
+
+        <strong>
+            🌸 Bloom & Blossom
+        </strong>
+
+        &nbsp; — &nbsp;
+
+        Fresh flowers, beautiful moments.
+
+    </footer>
+
+
+
+    <!-- =========================
+     BKASH SCRIPT
+========================= -->
+
+    <script>
+
+        const codRadio =
+            document.getElementById(
+                "cod"
+            );
+
+        const bkashRadio =
+            document.getElementById(
+                "bkash"
+            );
+
+        const bkashSection =
+            document.getElementById(
+                "bkash-section"
+            );
+
+        const bkashNumber =
+            document.getElementById(
+                "bkash_number"
+            );
+
+        const transactionId =
+            document.getElementById(
+                "transaction_id"
+            );
+
+
+        function updatePaymentMethod() {
+
+
+            if (
+                bkashRadio.checked
+            ) {
+
+                bkashSection.style.display =
+                    "block";
+
+
+                bkashNumber.required =
+                    true;
+
+
+                transactionId.required =
+                    true;
+
+            }
+
+
+            else {
+
+                bkashSection.style.display =
+                    "none";
+
+
+                bkashNumber.required =
+                    false;
+
+
+                transactionId.required =
+                    false;
+
+            }
+
+        }
+
+
+        codRadio.addEventListener(
+            "change",
+            updatePaymentMethod
+        );
+
+
+        bkashRadio.addEventListener(
+            "change",
+            updatePaymentMethod
+        );
+
+
+        updatePaymentMethod();
+
+    </script>
+
+
+</body>
+
+</html>

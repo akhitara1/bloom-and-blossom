@@ -1,0 +1,639 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Product | Bloom & Blossom</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #fffafa;
+            color: #292125;
+            font-family: Arial, sans-serif;
+        }
+
+        .page {
+            width: 90%;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 50px 0 80px;
+        }
+
+        .back {
+            color: #d85c75;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .heading {
+            margin: 25px 0;
+        }
+
+        .heading small {
+            color: #d85c75;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .heading h1 {
+            margin: 8px 0;
+            font-size: 34px;
+        }
+
+        .heading p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .card {
+            padding: 30px;
+            background: white;
+            border: 1px solid #eeeeee;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #444;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #dddddd;
+            border-radius: 9px;
+            background: white;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #d85c75;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* CATEGORY */
+
+        .category-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .category-row select {
+            flex: 1;
+        }
+
+        .category-add-button {
+            padding: 0 16px;
+            border: none;
+            border-radius: 9px;
+            background: #fff0f3;
+            color: #d85c75;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .category-add-button:hover {
+            background: #d85c75;
+            color: white;
+        }
+
+        .category-form {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #fff6f8;
+            border: 1px solid #f1d9df;
+            border-radius: 10px;
+        }
+
+        .category-form.active {
+            display: block;
+        }
+
+        .category-form-title {
+            margin: 0 0 10px;
+            color: #555;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .category-create-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .category-create-row input {
+            flex: 1;
+        }
+
+        .category-create-row button {
+            padding: 0 16px;
+            border: none;
+            border-radius: 9px;
+            background: #d85c75;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* IMAGE */
+
+        .image-upload {
+            padding: 20px;
+            background: #fff6f8;
+            border: 1px dashed #d85c75;
+            border-radius: 12px;
+        }
+
+        .image-upload input {
+            border: none;
+            padding: 0;
+            background: transparent;
+        }
+
+        .image-help {
+            margin-top: 8px;
+            color: #999;
+            font-size: 10px;
+        }
+
+        /* BUTTONS */
+
+        .button-area {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .submit-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 28px;
+            background: #d85c75;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #b94760;
+        }
+
+        .cancel-btn {
+            padding: 14px 25px;
+            border-radius: 28px;
+            background: #f1f1f1;
+            color: #555;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #fff1f4;
+            color: #b94760;
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .page {
+                width: 92%;
+            }
+
+            .category-row,
+            .category-create-row {
+                flex-direction: column;
+            }
+
+            .category-add-button,
+            .category-create-row button {
+                padding: 12px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="page">
+
+
+        <a href="{% url 'admin_products' %}" class="back">
+
+            ← Back to Products
+
+        </a>
+
+
+        <div class="heading">
+
+            <small>
+                PRODUCT MANAGEMENT
+            </small>
+
+            <h1>
+                Add New Product
+            </h1>
+
+            <p>
+                Add a new flower product to your shop.
+            </p>
+
+        </div>
+
+
+        {% if messages %}
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+            <div class="message">
+
+                {{ message }}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="card">
+
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+
+                <div class="form-grid">
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Product Name
+                        </label>
+
+                        <input type="text" name="name" placeholder="e.g. Royal Red Roses" required>
+
+                    </div>
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Category
+                        </label>
+
+
+                        <div class="category-row">
+
+
+                            <select name="category" id="category-select" required>
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+
+                                <option value="Roses">
+                                    Roses
+                                </option>
+
+
+                                <option value="Tulips">
+                                    Tulips
+                                </option>
+
+
+                                <option value="Sunflowers">
+                                    Sunflowers
+                                </option>
+
+
+                                <option value="Bouquets">
+                                    Bouquets
+                                </option>
+
+
+                                {% for category in categories %}
+
+                                <option value="{{ category.name }}">
+
+                                    {{ category.name }}
+
+                                </option>
+
+                                {% endfor %}
+
+                            </select>
+
+
+                            <button type="button" class="category-add-button" onclick="toggleCategoryForm()">
+
+                                + Add Category
+
+                            </button>
+
+
+                        </div>
+
+
+                        <!-- ADD CATEGORY -->
+
+                        <div id="category-form" class="category-form">
+
+                            <p class="category-form-title">
+
+                                Create a new category
+
+                            </p>
+
+
+                            <div class="category-create-row">
+
+
+                                <input type="text" id="new-category" placeholder="e.g. Lilies">
+
+
+                                <button type="button" onclick="addCategory()">
+
+                                    Add
+
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- PRICE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Price (৳)
+                        </label>
+
+                        <input type="number" name="price" step="0.01" min="0" placeholder="1250" required>
+
+                    </div>
+
+
+                    <!-- STOCK -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Stock Quantity
+                        </label>
+
+                        <input type="number" name="stock" min="0" placeholder="20" required>
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            Product Image
+                        </label>
+
+
+                        <div class="image-upload">
+
+                            <input type="file" name="image" accept="image/*">
+
+
+                            <div class="image-help">
+
+                                JPG, JPEG, PNG or WEBP recommended.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMOJI -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Emoji (Optional)
+                        </label>
+
+                        <input type="text" name="emoji" placeholder="🌹" maxlength="10">
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group full">
+
+                        <label>
+                            Product Description
+                        </label>
+
+                        <textarea name="description" placeholder="Write a short description about this flower..."
+                            required></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="button-area">
+
+                    <button type="submit" class="submit-btn">
+
+                        🌸 Add Product
+
+                    </button>
+
+
+                    <a href="{% url 'admin_products' %}" class="cancel-btn">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </main>
+
+
+    <script>
+
+        function toggleCategoryForm() {
+
+            const form =
+                document.getElementById(
+                    "category-form"
+                );
+
+            form.classList.toggle(
+                "active"
+            );
+
+        }
+
+
+        function addCategory() {
+
+            const input =
+                document.getElementById(
+                    "new-category"
+                );
+
+            const category =
+                input.value.trim();
+
+
+            if (!category) {
+
+                alert(
+                    "Please enter a category name."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Add category directly to dropdown
+             * for the current product.
+             */
+
+            const select =
+                document.getElementById(
+                    "category-select"
+                );
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value = category;
+
+            option.textContent = category;
+
+            option.selected = true;
+
+
+            select.appendChild(
+                option
+            );
+
+
+            input.value = "";
+
+
+            document
+                .getElementById("category-form")
+                .classList.remove("active");
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
