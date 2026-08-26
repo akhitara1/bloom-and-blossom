@@ -12,6 +12,7 @@
     <title>Bloom & Blossom | Flower Bouquet Shop</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
     <style>
         /* =========================
            NAVIGATION
@@ -73,25 +74,18 @@
             width: 150px;
             height: 150px;
             margin: 0 auto 15px;
-
             border-radius: 50%;
-
             overflow: hidden;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             background: #fff1f4;
         }
-
 
         .category-real-image {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
-
             display: block;
         }
 
@@ -103,14 +97,10 @@
         .hero-real-image {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
-
             border-radius: 50%;
-
             display: block;
         }
-
 
         .flower-circle {
             overflow: hidden;
@@ -124,23 +114,18 @@
         .featured-image {
             width: 100%;
             height: 100%;
-
             object-fit: cover;
-
             display: block;
         }
-
 
         .product-image {
             overflow: hidden;
         }
 
-
         .product-link {
             color: inherit;
             text-decoration: none;
         }
-
 
         .product-link:hover {
             color: #d85c75;
@@ -151,20 +136,20 @@
            BLOG IMAGES
         ========================= */
 
-        .blog-real-image {
-            width: 100%;
-            height: 100%;
+.blog-image {
+    height: 275px;
+    overflow: hidden;
+    border-radius: 18px 18px 0 0;
+}
 
-            object-fit: cover;
-
-            display: block;
-        }
-
-
-        .blog-image {
-            overflow: hidden;
-        }
-    </style>
+.blog-real-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+</style>
 
 </head>
 
@@ -173,16 +158,13 @@
 
 
     <!-- =====================================================
-     NAVBAR
-===================================================== -->
+         NAVBAR
+    ===================================================== -->
 
     <header class="navbar">
 
-
         <div class="logo">
-
             🌸 Bloom & Blossom
-
         </div>
 
 
@@ -209,7 +191,6 @@
 
         <div class="nav-actions">
 
-
             <button type="button">
                 🔍
             </button>
@@ -218,24 +199,17 @@
             {% if user.is_authenticated %}
 
             <a href="{% url 'dashboard' %}" class="account-link">
-
                 👤 {{ user.username }}
-
             </a>
 
             {% else %}
 
             <a href="{% url 'customer_login' %}" class="account-link">
-
                 👤 Login
-
             </a>
 
-
             <a href="{% url 'register' %}" class="register-nav-link">
-
                 Register
-
             </a>
 
             {% endif %}
@@ -251,28 +225,23 @@
 
             </a>
 
-
         </div>
-
 
     </header>
 
 
 
     <!-- =====================================================
-     HERO SECTION
-===================================================== -->
+         HERO SECTION
+    ===================================================== -->
 
     <section class="hero">
 
 
         <div class="hero-content">
 
-
             <p class="small-title">
-
                 BEAUTIFUL FLOWERS FOR EVERY MOMENT
-
             </p>
 
 
@@ -297,23 +266,16 @@
 
             <div class="hero-buttons">
 
-
                 <a href="/shop/" class="btn primary-btn">
-
                     Shop Now
-
                 </a>
 
 
                 <a href="#categories" class="btn secondary-btn">
-
                     Explore Bouquets
-
                 </a>
 
-
             </div>
-
 
         </div>
 
@@ -323,15 +285,11 @@
 
         <div class="hero-image">
 
-
             <div class="flower-circle">
-
 
                 {% if products %}
 
-
                 {% with hero_product=products.0 %}
-
 
                 {% if hero_product.image %}
 
@@ -340,16 +298,12 @@
                 {% else %}
 
                 <span style="font-size:100px;">
-
                     {{ hero_product.emoji }}
-
                 </span>
 
                 {% endif %}
 
-
                 {% endwith %}
-
 
                 {% else %}
 
@@ -359,36 +313,30 @@
 
                 {% endif %}
 
-
             </div>
 
-
         </div>
-
 
     </section>
 
 
 
     <!-- =====================================================
-     CATEGORY SECTION
-===================================================== -->
+         CATEGORY SECTION
+    ===================================================== -->
 
     <section class="categories" id="categories">
 
 
         <div class="section-heading">
 
-
             <p>
                 EXPLORE OUR COLLECTION
             </p>
 
-
             <h2>
                 Shop By Category
             </h2>
-
 
         </div>
 
@@ -399,17 +347,14 @@
 
             <!-- ================= ROSES ================= -->
 
-            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
-
+            <a href="{% url 'category_products' 'Roses' %}" class="category-card"
+                style="text-decoration:none;color:inherit;">
 
                 <div class="category-icon">
 
-
                     {% if roses and roses.image %}
 
-
                     <img src="{{ roses.image.url }}" alt="Roses" class="category-real-image">
-
 
                     {% else %}
 
@@ -418,7 +363,6 @@
                     </span>
 
                     {% endif %}
-
 
                 </div>
 
@@ -432,24 +376,20 @@
                     Beautiful roses
                 </p>
 
-
             </a>
 
 
 
             <!-- ================= TULIPS ================= -->
 
-            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
-
+            <a href="{% url 'category_products' 'Tulips' %}" class="category-card"
+                style="text-decoration:none;color:inherit;">
 
                 <div class="category-icon">
 
-
                     {% if tulips and tulips.image %}
 
-
                     <img src="{{ tulips.image.url }}" alt="Tulips" class="category-real-image">
-
 
                     {% else %}
 
@@ -458,7 +398,6 @@
                     </span>
 
                     {% endif %}
-
 
                 </div>
 
@@ -472,24 +411,20 @@
                     Fresh tulips
                 </p>
 
-
             </a>
 
 
 
             <!-- ================= SUNFLOWERS ================= -->
 
-            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
-
+            <a href="{% url 'category_products' 'Sunflowers' %}" class="category-card"
+                style="text-decoration:none;color:inherit;">
 
                 <div class="category-icon">
 
-
                     {% if sunflowers and sunflowers.image %}
 
-
                     <img src="{{ sunflowers.image.url }}" alt="Sunflowers" class="category-real-image">
-
 
                     {% else %}
 
@@ -498,7 +433,6 @@
                     </span>
 
                     {% endif %}
-
 
                 </div>
 
@@ -512,24 +446,20 @@
                     Bright sunflowers
                 </p>
 
-
             </a>
 
 
 
             <!-- ================= BOUQUETS ================= -->
 
-            <a href="/shop/" class="category-card" style="text-decoration:none;color:inherit;">
-
+            <a href="{% url 'category_products' 'Bouquets' %}" class="category-card"
+                style="text-decoration:none;color:inherit;">
 
                 <div class="category-icon">
 
-
                     {% if bouquets and bouquets.image %}
 
-
                     <img src="{{ bouquets.image.url }}" alt="Bouquets" class="category-real-image">
-
 
                     {% else %}
 
@@ -538,7 +468,6 @@
                     </span>
 
                     {% endif %}
-
 
                 </div>
 
@@ -552,36 +481,31 @@
                     Beautiful bouquets
                 </p>
 
-
             </a>
 
 
         </div>
-
 
     </section>
 
 
 
     <!-- =====================================================
-     FEATURED PRODUCTS
-===================================================== -->
+         FEATURED PRODUCTS
+    ===================================================== -->
 
     <section class="products">
 
 
         <div class="section-heading">
 
-
             <p>
                 OUR BEST SELLERS
             </p>
 
-
             <h2>
                 Featured Bouquets
             </h2>
-
 
         </div>
 
@@ -592,7 +516,6 @@
 
             {% for product in products|slice:":3" %}
 
-
             <div class="product-card">
 
 
@@ -600,31 +523,21 @@
 
                 <a href="{% url 'product_detail' product.id %}" class="product-link">
 
-
                     <div class="product-image">
-
 
                         {% if product.image %}
 
-
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="featured-image">
-
 
                         {% else %}
 
-
                         <span style="font-size:80px;">
-
                             {{ product.emoji }}
-
                         </span>
-
 
                         {% endif %}
 
-
                     </div>
-
 
                 </a>
 
@@ -634,111 +547,82 @@
 
                 <div class="product-info">
 
-
                     <p class="product-category">
-
                         {{ product.category }}
-
                     </p>
 
 
                     <h3>
 
-
                         <a href="{% url 'product_detail' product.id %}" class="product-link">
-
                             {{ product.name }}
-
                         </a>
-
 
                     </h3>
 
 
                     <div class="product-bottom">
 
-
                         <strong>
-
                             ৳ {{ product.price }}
-
                         </strong>
-
 
 
                         {% if product.stock > 0 %}
 
-
                         <a href="{% url 'add_to_cart' product.id %}" class="cart-btn" style="text-decoration:none;">
-
                             Add to Cart
-
                         </a>
-
 
                         {% else %}
 
-
                         <span style="
-                                color:#c44c4c;
-                                font-size:11px;
-                                font-weight:bold;
+                                    color:#c44c4c;
+                                    font-size:11px;
+                                    font-weight:bold;
                                 ">
-
                             Out of Stock
-
                         </span>
-
 
                         {% endif %}
 
-
                     </div>
-
 
                 </div>
 
-
             </div>
 
-
             {% empty %}
-
 
             <p>
                 No products available yet.
             </p>
-
 
             {% endfor %}
 
 
         </div>
 
-
     </section>
 
 
 
     <!-- =====================================================
-     WHY CHOOSE US
-===================================================== -->
+         WHY CHOOSE US
+    ===================================================== -->
 
     <section class="features" id="about">
 
 
         <div class="section-heading">
 
-
             <p>
                 WHY BLOOM & BLOSSOM
             </p>
 
-
             <h2>
                 We Make Every Moment Special
             </h2>
-
 
         </div>
 
@@ -749,49 +633,37 @@
 
             <div class="feature">
 
-
                 <div>
                     🌸
                 </div>
-
 
                 <h3>
                     Fresh Flowers
                 </h3>
 
-
                 <p>
-
                     Carefully selected fresh flowers
                     for every beautiful bouquet.
-
                 </p>
-
 
             </div>
 
 
 
             <div class="feature">
-
 
                 <div>
                     🎁
                 </div>
 
-
                 <h3>
                     Beautiful Packaging
                 </h3>
 
-
                 <p>
-
                     Every order is beautifully packed
                     and ready to gift.
-
                 </p>
-
 
             </div>
 
@@ -799,324 +671,191 @@
 
             <div class="feature">
 
-
                 <div>
                     🚚
                 </div>
-
 
                 <h3>
                     Fast Delivery
                 </h3>
 
-
                 <p>
-
                     Get your flowers delivered
                     safely and quickly.
-
                 </p>
-
 
             </div>
 
 
         </div>
 
-
     </section>
 
 
-
     <!-- =====================================================
-     BLOG SECTION
-===================================================== -->
-
+         BLOG SECTION
+    ===================================================== -->
+    
     <section class="blog">
-
-
+    
         <div class="section-heading">
-
-
+    
             <p>
                 FROM OUR JOURNAL
             </p>
-
-
+    
             <h2>
                 Flower & Gifting Ideas
             </h2>
-
-
+    
         </div>
-
-
-
+    
+    
         <div class="blog-container">
-
-
-            <!-- BLOG 1 -->
-
+    
+    
+            <!-- ================= BLOG 1 ================= -->
+    
             <article class="blog-card">
-
-
+    
                 <div class="blog-image">
-
-
-                    {% if products|length > 0 %}
-
-
-                    {% with product=products.0 %}
-
-
-                    {% if product.image %}
-
-
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
-
-
-                    {% else %}
-
-
-                    🌹
-
-
-                    {% endif %}
-
-
-                    {% endwith %}
-
-
-                    {% else %}
-
-                    🌹
-
-                    {% endif %}
-
-
+    
+                    <img src="/media/products/8.webp" alt="How to Choose the Perfect Bouquet" class="blog-real-image">
+    
                 </div>
-
-
-
+    
+    
                 <div class="blog-content">
-
-
+    
                     <p class="blog-date">
                         March 12, 2026
                     </p>
-
-
+    
+    
                     <h3>
                         How to Choose the Perfect Bouquet
                     </h3>
-
-
+    
+    
                     <p>
-
                         Learn how to choose the right flowers
                         for birthdays, anniversaries and other
                         special occasions.
-
                     </p>
-
-
-                    <a href="/shop/" class="read-more">
-
-                        Explore Flowers →
-
+    
+    
+                    <a href="{% url 'blog_detail' 1 %}" class="read-more">
+                        Read Article →
                     </a>
-
-
+    
                 </div>
-
-
+    
             </article>
-
-
-
-            <!-- BLOG 2 -->
-
+    
+    
+    
+            <!-- ================= BLOG 2 ================= -->
+    
             <article class="blog-card">
-
-
+    
                 <div class="blog-image">
-
-
-                    {% if products|length > 1 %}
-
-
-                    {% with product=products.1 %}
-
-
-                    {% if product.image %}
-
-
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
-
-
-                    {% else %}
-
-
-                    🌷
-
-
-                    {% endif %}
-
-
-                    {% endwith %}
-
-
-                    {% else %}
-
-                    🌷
-
-                    {% endif %}
-
-
+    
+                    <img src="/media/products/7.jpg" alt="5 Flowers That Express Love" class="blog-real-image">
+    
                 </div>
-
-
-
+    
+    
                 <div class="blog-content">
-
-
+    
                     <p class="blog-date">
                         March 08, 2026
                     </p>
-
-
+    
+    
                     <h3>
                         5 Flowers That Express Love
                     </h3>
-
-
+    
+    
                     <p>
-
                         Discover beautiful flowers that can
                         help you express love, friendship and
                         heartfelt emotions.
-
                     </p>
-
-
-                    <a href="/shop/" class="read-more">
-
-                        Explore Flowers →
-
+    
+    
+                    <a href="{% url 'blog_detail' 2 %}" class="read-more">
+                        Read Article →
                     </a>
-
-
+    
                 </div>
-
-
+    
             </article>
-
-
-
-            <!-- BLOG 3 -->
-
+    
+    
+    
+            <!-- ================= BLOG 3 ================= -->
+    
             <article class="blog-card">
-
-
+    
                 <div class="blog-image">
-
-
-                    {% if products|length > 2 %}
-
-
-                    {% with product=products.2 %}
-
-
-                    {% if product.image %}
-
-
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="blog-real-image">
-
-
-                    {% else %}
-
-
-                    🌻
-
-
-                    {% endif %}
-
-
-                    {% endwith %}
-
-
-                    {% else %}
-
-                    🌻
-
-                    {% endif %}
-
-
+    
+                    <img src="/media/products/SereneWhiteLiliesinVase-1755149681540.webp" alt="Simple Tips to Keep Flowers Fresh"
+                        class="blog-real-image">
+    
                 </div>
-
-
-
+    
+    
                 <div class="blog-content">
-
-
+    
                     <p class="blog-date">
                         February 28, 2026
                     </p>
-
-
+    
+    
                     <h3>
                         Simple Tips to Keep Flowers Fresh
                     </h3>
-
-
+    
+    
                     <p>
-
                         Follow these simple tips to keep your
                         beautiful bouquet fresh and vibrant
                         for longer.
-
                     </p>
-
-
-                    <a href="/shop/" class="read-more">
-
-                        Explore Flowers →
-
+    
+    
+                    <a href="{% url 'blog_detail' 3 %}" class="read-more">
+                        Read Article →
                     </a>
-
-
+    
                 </div>
-
-
+    
             </article>
-
-
+    
+    
         </div>
-
-
+    
     </section>
 
 
 
     <!-- =====================================================
-     REVIEWS
-===================================================== -->
+         REVIEWS
+    ===================================================== -->
 
     <section class="reviews">
 
 
         <div class="section-heading">
 
-
             <p>
                 OUR HAPPY CUSTOMERS
             </p>
 
-
             <h2>
                 What Our Customers Say
             </h2>
-
 
         </div>
 
@@ -1126,7 +865,6 @@
 
 
             <div class="review-card">
-
 
                 <div class="stars">
                     ★★★★★
@@ -1143,7 +881,6 @@
 
 
                 <div class="customer">
-
 
                     <div class="customer-avatar">
                         S
@@ -1162,16 +899,13 @@
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
             <div class="review-card">
-
 
                 <div class="stars">
                     ★★★★★
@@ -1188,7 +922,6 @@
 
 
                 <div class="customer">
-
 
                     <div class="customer-avatar">
                         R
@@ -1207,16 +940,13 @@
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
             <div class="review-card">
-
 
                 <div class="stars">
                     ★★★★★
@@ -1233,7 +963,6 @@
 
 
                 <div class="customer">
-
 
                     <div class="customer-avatar">
                         N
@@ -1252,23 +981,20 @@
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
         </div>
 
-
     </section>
 
 
 
     <!-- =====================================================
-     FOOTER
-===================================================== -->
+         FOOTER
+    ===================================================== -->
 
     <footer id="contact">
 
@@ -1278,26 +1004,20 @@
 
             <div>
 
-
                 <h2>
                     🌸 Bloom & Blossom
                 </h2>
 
-
                 <p>
-
                     Making every moment beautiful
                     with flowers.
-
                 </p>
-
 
             </div>
 
 
 
             <div>
-
 
                 <h3>
                     Quick Links
@@ -1323,13 +1043,11 @@
                     Contact
                 </a>
 
-
             </div>
 
 
 
             <div>
-
 
                 <h3>
                     Contact
@@ -1349,7 +1067,6 @@
                 <p>
                     ✉️ hello@bloom.com
                 </p>
-
 
             </div>
 

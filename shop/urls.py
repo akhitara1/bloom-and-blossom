@@ -163,5 +163,29 @@ path(
     views.add_review,
     name="add_review"
 ),
+path(
+    "category/<str:category_name>/",
+    views.category_products,
+    name="category_products"
+),
+path(
+    "product/<int:product_id>/review/",
+    views.add_review,
+    name="add_review"
+),
+
+# CATEGORY PRODUCTS
+path(
+    "category/<str:category_name>/",
+    views.category_products,
+    name="category_products"
+),
+
+# BLOG DETAIL
+path(
+    "blog/<int:blog_id>/",
+    views.blog_detail,
+    name="blog_detail"
+),
 
 ]

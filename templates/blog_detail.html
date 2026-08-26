@@ -1,0 +1,568 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ blog.title }} | Bloom & Blossom
+    </title>
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: #fffafa;
+
+            color: #292125;
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .simple-navbar {
+
+            height: 80px;
+
+            padding: 0 6%;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #eeeeee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .simple-logo {
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            color: #292125;
+        }
+
+
+        .simple-nav {
+
+            display: flex;
+
+            gap: 32px;
+        }
+
+
+        .simple-nav a {
+
+            color: #292125;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+
+        .simple-nav a:hover {
+
+            color: #d85c75;
+        }
+
+
+
+        /* =========================
+           MAIN BLOG
+        ========================= */
+
+        .blog-page {
+
+            width: 100%;
+
+            padding: 55px 6% 80px;
+        }
+
+
+        .blog-wrapper {
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+        }
+
+
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        .blog-image-box {
+
+            width: 72%;
+
+            max-width: 760px;
+
+            height: 450px;
+
+            margin: 0 auto 40px;
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            background: #fff1f4;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .blog-image-box img {
+
+            width: 100%;
+
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+
+            object-position: center;
+        }
+
+
+
+        /* =========================
+           ARTICLE HEADER
+        ========================= */
+
+        .blog-date {
+
+            color: #d85c75;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin: 0 0 14px;
+        }
+
+
+        .blog-title {
+
+            max-width: 850px;
+
+            margin: 0 0 20px;
+
+            font-size: 46px;
+
+            line-height: 1.15;
+
+            font-weight: 700;
+
+            color: #292125;
+        }
+
+
+        .blog-description {
+
+            max-width: 800px;
+
+            margin: 0 0 35px;
+
+            color: #777777;
+
+            font-size: 18px;
+
+            line-height: 1.8;
+        }
+
+
+
+        /* =========================
+           ARTICLE CONTENT
+        ========================= */
+
+        .article-box {
+
+            max-width: 850px;
+
+            background: #ffffff;
+
+            border: 1px solid #eeeeee;
+
+            border-radius: 18px;
+
+            padding: 35px 40px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .article-box p {
+
+            margin: 0 0 22px;
+
+            color: #555555;
+
+            font-size: 16px;
+
+            line-height: 1.9;
+        }
+
+
+        .article-box p:last-child {
+
+            margin-bottom: 0;
+        }
+
+
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-button {
+
+            display: inline-block;
+
+            padding: 12px 24px;
+
+            background: #d85c75;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 25px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        .back-button:hover {
+
+            background: #bd4d64;
+
+            transform: translateY(-2px);
+        }
+
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .simple-footer {
+
+            padding: 30px 6%;
+
+            background: #fff1f4;
+
+            text-align: center;
+
+            color: #777777;
+
+            font-size: 14px;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .simple-navbar {
+
+                height: auto;
+
+                padding: 20px 5%;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .simple-nav {
+
+                gap: 20px;
+            }
+
+
+            .blog-page {
+
+                padding: 35px 5% 60px;
+            }
+
+
+            .blog-image-box {
+
+                width: 100%;
+
+                height: 300px;
+
+                border-radius: 16px;
+            }
+
+
+            .blog-title {
+
+                font-size: 32px;
+            }
+
+
+            .blog-description {
+
+                font-size: 16px;
+            }
+
+
+            .article-box {
+
+                padding: 25px 22px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <header class="simple-navbar">
+
+
+        <div class="simple-logo">
+
+            🌸 Bloom & Blossom
+
+        </div>
+
+
+        <nav class="simple-nav">
+
+
+            <a href="/">
+                Home
+            </a>
+
+
+            <a href="/shop/">
+                Shop
+            </a>
+
+
+            <a href="/#about">
+                About
+            </a>
+
+
+            <a href="/#contact">
+                Contact
+            </a>
+
+
+        </nav>
+
+
+    </header>
+
+
+
+    <!-- =========================
+         BLOG PAGE
+    ========================= -->
+
+    <main class="blog-page">
+
+
+        <div class="blog-wrapper">
+
+
+            <!-- =========================
+                 BLOG IMAGE
+            ========================= -->
+
+            <div class="blog-image-box">
+
+
+                {% if blog.image %}
+
+                <img src="/media/products/{{ blog.image }}" alt="{{ blog.title }}">
+
+                {% else %}
+
+                <div style="
+                        width:100%;
+                        height:100%;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        color:#999;
+                        font-size:18px;
+                    ">
+
+                    Flower image unavailable
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 DATE
+            ========================= -->
+
+            <p class="blog-date">
+
+                {{ blog.date }}
+
+            </p>
+
+
+
+            <!-- =========================
+                 TITLE
+            ========================= -->
+
+            <h1 class="blog-title">
+
+                {{ blog.title }}
+
+            </h1>
+
+
+
+            <!-- =========================
+                 DESCRIPTION
+            ========================= -->
+
+            <p class="blog-description">
+
+                {{ blog.description }}
+
+            </p>
+
+
+
+            <!-- =========================
+                 ARTICLE CONTENT
+            ========================= -->
+
+            <div class="article-box">
+
+
+                <p>
+
+                    {{ blog.content }}
+
+                </p>
+
+
+                <p>
+
+                    Flowers have a special way of making
+                    important moments more beautiful.
+                    Choosing the right bouquet can make
+                    a simple gift feel personal and memorable.
+
+                </p>
+
+
+                <p>
+
+                    When choosing flowers, consider the
+                    occasion, the colours and the personality
+                    of the person receiving them. Fresh flowers
+                    and a thoughtful arrangement can make
+                    your gift even more meaningful.
+
+                </p>
+
+
+                <p>
+
+                    Whether you are celebrating a birthday,
+                    anniversary or simply want to make someone
+                    smile, the right bouquet can express
+                    feelings beautifully.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 BACK BUTTON
+            ========================= -->
+
+            <a href="/" class="back-button">
+
+                ← Back to Home
+
+            </a>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer class="simple-footer">
+
+        © 2026 Bloom & Blossom.
+        All Rights Reserved.
+
+    </footer>
+
+
+</body>
+
+</html>
